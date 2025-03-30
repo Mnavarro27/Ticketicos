@@ -1,0 +1,132 @@
+﻿@page
+@model WebApplication1.Pages.Cliente.PagoCodigosModel
+@{
+    ViewData["Title"] = "Tickicos - Compra con Promoción";
+}
+
+<style>
+    .bg-neon {
+        background-color: #c1ff00;
+    }
+
+    .bg-panel {
+        background-color: #505050;
+    }
+
+    .bg-input {
+        background-color: #3c3c3c;
+    }
+
+    .text-neon {
+        color: #c1ff00;
+    }
+
+    .text-sm {
+        font-size: 0.875rem;
+    }
+</style>
+
+<div class="container-fluid bg-black min-vh-100 py-4">
+    <!-- Logo -->
+    <div class="d-flex justify-content-center mb-3">
+        <div class="bg-neon d-flex align-items-center justify-content-center" style="width: 70px; height: 70px; border-radius: 10px;">
+            <span class="fw-bold text-black">TICKICOS</span>
+        </div>
+    </div>
+
+    <!-- Panel principal -->
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="bg-panel rounded-4 shadow-lg overflow-hidden mb-4">
+                <!-- Título -->
+                <div class="bg-neon p-2 text-center">
+                    <h4 class="fw-bold text-black mb-0">Compra con Promoción</h4>
+                </div>
+
+                <div class="p-4">
+                    <!-- Logos de tarjetas -->
+                    <div class="mb-4">
+                        <div class="bg-dark p-2 d-inline-block rounded">
+                            <span class="text-white small">Visa / Mastercard / American Express</span>
+                        </div>
+                    </div>
+
+                    <!-- Resumen de la Compra -->
+                    <div class="bg-dark p-3 rounded mb-4">
+                        <h5 class="text-white mb-3">Resumen de la Compra</h5>
+                        <div class="row g-2 text-sm">
+                            <div class="col-4 text-light">Tipo de Código:</div>
+                            <div class="col-8 text-white">@Model.ResumenCompra.TipoCodigo</div>
+
+                            <div class="col-4 text-light">Válido para:</div>
+                            <div class="col-8 text-white">@Model.ResumenCompra.ValidoPara</div>
+                        </div>
+                    </div>
+
+                    @if (Model.MostrarMensajeExito)
+                    {
+                        <div class="alert alert-success d-flex align-items-center" role="alert">
+                            <i class="bi bi-check-circle-fill me-2"></i>
+                            <div>Compra con descuento realizada con éxito</div>
+                        </div>
+                    }
+                    else
+                    {
+                        <form method="post">
+                            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                            <!-- Nombre completo -->
+                            <div class="mb-3">
+                                <label asp-for="DatosPago.NombreCompleto" class="form-label text-white">Nombre completo</label>
+                                <input asp-for="DatosPago.NombreCompleto" class="form-control bg-input text-white border-dark" />
+                                <span asp-validation-for="DatosPago.NombreCompleto" class="text-danger"></span>
+                            </div>
+
+                            <!-- Correo Electrónico -->
+                            <div class="mb-3">
+                                <label asp-for="DatosPago.CorreoElectronico" class="form-label text-white">Correo Electrónico</label>
+                                <input asp-for="DatosPago.CorreoElectronico" class="form-control bg-input text-white border-dark" />
+                                <span asp-validation-for="DatosPago.CorreoElectronico" class="text-danger"></span>
+                            </div>
+
+                            <!-- Datos de tarjeta -->
+                            <div class="row mb-4">
+                                <div class="col-md-6">
+                                    <label asp-for="DatosPago.NumeroTarjeta" class="form-label text-white">Número de tarjeta</label>
+                                    <input asp-for="DatosPago.NumeroTarjeta" class="form-control bg-input text-white border-dark" />
+                                    <span asp-validation-for="DatosPago.NumeroTarjeta" class="text-danger"></span>
+                                </div>
+                                <div class="col-md-3">
+                                    <label asp-for="DatosPago.Vencimiento" class="form-label text-white">Vencimiento</label>
+                                    <input asp-for="DatosPago.Vencimiento" placeholder="MM/YY" class="form-control bg-input text-white border-dark" />
+                                    <span asp-validation-for="DatosPago.Vencimiento" class="text-danger"></span>
+                                </div>
+                                <div class="col-md-3">
+                                    <label asp-for="DatosPago.CVV" class="form-label text-white">CVV</label>
+                                    <input asp-for="DatosPago.CVV" class="form-control bg-input text-white border-dark" />
+                                    <span asp-validation-for="DatosPago.CVV" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <!-- Precio total -->
+                            <div class="d-flex align-items-center mb-4">
+                                <span class="text-white me-3">Precio total</span>
+                                <span class="text-neon fw-bold fs-5">€@Model.PrecioTotal</span>
+                            </div>
+
+                            <!-- Botones -->
+                            <div class="d-flex justify-content-end gap-2">
+                                <button type="submit" class="btn btn-success px-4">Confirmar Compra</button>
+                                <a asp-page="/Index" class="btn btn-secondary" onclick="return confirm('¿Está seguro que desea cancelar la compra?')">Cancelar</a>
+                            </div>
+                        </form>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

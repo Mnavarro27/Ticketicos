@@ -1,0 +1,161 @@
+﻿@* gestionclientes.cshtml *@
+@page
+@model Tickicos.Pages.Admin.GestionClientesModel
+@{
+    ViewData["Title"] = "Gestión de Clientes";
+}
+<div style="background-color: black; min-height: 100vh; padding: 20px;">
+    <!-- Logo -->
+    <div style="text-align: center; margin-bottom: 20px;">
+        <div style="width: 70px; height: 70px; background-color: #C1FF00; display: inline-block;">
+            <img src="/images/logo.png" alt="Logo" style="width: 100%; height: 100%; object-fit: contain;" />
+        </div>
+    </div>
+
+    <!-- Panel Principal -->
+    <div style="max-width: 1200px; margin: 0 auto;">
+        <!-- Título Principal -->
+        <div style="background-color: #C1FF00; color: black; padding: 10px; text-align: center; font-weight: bold; font-size: 20px; margin-bottom: 20px;">
+            panel administrativo
+        </div>
+
+        @if (!string.IsNullOrEmpty(Model.MensajeExito))
+        {
+            <div style="background-color: green; color: white; padding: 10px; margin-bottom: 20px; border-radius: 5px;">
+                @Model.MensajeExito
+            </div>
+        }
+
+        @if (!string.IsNullOrEmpty(Model.MensajeError))
+        {
+            <div style="background-color: red; color: white; padding: 10px; margin-bottom: 20px; border-radius: 5px;">
+                @Model.MensajeError
+            </div>
+        }
+
+        <div style="display: flex; flex-direction: row;">
+            <!-- Menú Lateral -->
+            <div style="width: 200px; background-color: #464646; padding: 15px; margin-right: 20px;">
+                <div style="margin-bottom: 15px; display: flex; align-items: center;">
+                    <i class="fas fa-users" style="color: #C1FF00; margin-right: 10px;"></i>
+                    <span style="color: white; font-weight: bold;">Gestión de Clientes</span>
+                </div>
+            </div>
+
+            <!-- Contenido Principal -->
+            <div style="flex: 1; background-color: #464646; padding: 15px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <h2 style="color: white; font-size: 18px;">Gestión de Clientes</h2>
+
+                    <!-- Buscador -->
+                    <form method="post" asp-page-handler="Buscar" style="display: flex;">
+                        <input type="text" asp-for="Busqueda"
+                               placeholder="Buscar cliente..."
+                               style="padding: 8px; background-color: #3a3a3a; color: white; border: 1px solid #505050;" />
+                        <button type="submit" style="background-color: #C1FF00; color: black; padding: 8px 15px; border: none;">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Tabla de Usuarios -->
+                <table style="width: 100%; border-collapse: collapse;">
+                    <thead>
+                        <tr style="background-color: #555555;">
+                            <th style="padding: 10px; text-align: left; color: white;">cliente</th>
+                            <th style="padding: 10px; text-align: left; color: white;">estado</th>
+                            <th style="padding: 10px; text-align: left; color: white;">último acceso</th>
+                            <th style="padding: 10px; text-align: right; color: white;">acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var usuario in Model.Usuarios)
+                        {
+                            <tr style="border-bottom: 1px solid #555555;">
+                                <td style="padding: 10px; color: white;">@usuario.NombreCompleto</td>
+                                <td style="padding: 10px;">
+                                    @if (usuario.Estado == "activo")
+                                    {
+                                        <span style="color: #4CAF50;">activo</span>
+                                    }
+                                    else
+                                    {
+                                        <span style="color: #F44336;">suspendido</span>
+                                    }
+                                </td>
+                                <td style="padding: 10px; color: white;">
+                                    @(usuario.UltimoAcceso.HasValue ? usuario.UltimoAcceso.Value.ToString("yyyy-MM-dd HH:mm") : "Nunca")
+                                </td>
+                                <td style="padding: 10px; text-align: right;">
+                                    <div style="position: relative; display: inline-block;">
+                                        <button type="button" onclick="toggleDropdown(@usuario.Id)" style="background: none; border: none; color: white; cursor: pointer;">
+                                            <i class="fas fa-ellipsis-v"></i>
+                                        </button>
+                                        <div id="dropdown-@usuario.Id" class="dropdown-menu" style="display: none; position: absolute; right: 0; background-color: #3a3a3a; min-width: 150px; box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); z-index: 1;">
+                                            <a href="/Admin/EditarUsuario/@usuario.Id" style="color: white; padding: 10px 15px; text-decoration: none; display: block;">
+                                                <i class="fas fa-edit" style="margin-right: 8px;"></i> Editar
+                                            </a>
+                                            <a href="/Admin/HistorialComprasUsuario/@usuario.Id" style="color: white; padding: 10px 15px; text-decoration: none; display: block;">
+                                                <i class="fas fa-shopping-cart" style="margin-right: 8px;"></i> Historial Compras
+                                            </a>
+                                            @if (usuario.Estado == "activo")
+                                            {
+                                                <form method="post" asp-page-handler="CambiarEstado" asp-route-id="@usuario.Id" asp-route-nuevoEstado="suspendido">
+                                                    <button type="submit" style="width: 100%; text-align: left; background: none; border: none; color: white; padding: 10px 15px; cursor: pointer;">
+                                                        <i class="fas fa-ban" style="margin-right: 8px;"></i> Suspender
+                                                    </button>
+                                                </form>
+                                            }
+                                            else
+                                            {
+                                                <form method="post" asp-page-handler="CambiarEstado" asp-route-id="@usuario.Id" asp-route-nuevoEstado="activo">
+                                                    <button type="submit" style="width: 100%; text-align: left; background: none; border: none; color: white; padding: 10px 15px; cursor: pointer;">
+                                                        <i class="fas fa-check-circle" style="margin-right: 8px;"></i> Activar
+                                                    </button>
+                                                </form>
+                                            }
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function toggleDropdown(userId) {
+            var dropdown = document.getElementById("dropdown-" + userId);
+
+            // Cerrar todos los dropdowns primero
+            var allDropdowns = document.getElementsByClassName("dropdown-menu");
+            for (var i = 0; i < allDropdowns.length; i++) {
+                if (allDropdowns[i].id !== "dropdown-" + userId) {
+                    allDropdowns[i].style.display = "none";
+                }
+            }
+
+            // Alternar el dropdown actual
+            if (dropdown.style.display === "none" || dropdown.style.display === "") {
+                dropdown.style.display = "block";
+            } else {
+                dropdown.style.display = "none";
+            }
+        }
+
+        // Cerrar dropdowns al hacer clic fuera de ellos
+        document.addEventListener("click", function(event) {
+            if (!event.target.closest("button")) {
+                var allDropdowns = document.getElementsByClassName("dropdown-menu");
+                for (var i = 0; i < allDropdowns.length; i++) {
+                    allDropdowns[i].style.display = "none";
+                }
+            }
+        });
+    </script>
+}
+

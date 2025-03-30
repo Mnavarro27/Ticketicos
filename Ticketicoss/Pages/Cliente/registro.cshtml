@@ -1,0 +1,126 @@
+﻿@page
+@model WebApplication1.Pages.Cliente.RegistroModel
+@{
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Crear Cuenta";
+}
+
+<style>
+    .bg-neon {
+        background-color: #C1FF00;
+    }
+</style>
+
+<!-- Logo -->
+<div class="d-flex justify-content-center mb-3">
+    <div class="bg-neon d-flex align-items-center justify-content-center" style="width: 70px; height: 70px; border-radius: 10px;">
+        <span class="fw-bold text-black">TICKICOS</span>
+    </div>
+</div>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card bg-dark text-light">
+                <div class="card-header bg-success text-center py-3">
+                    <h2 class="text-dark fw-bold mb-0">Crear Cuenta</h2>
+                </div>
+                <div class="card-body" style="background-color: #888888;">
+                    @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+                    {
+                        <div class="alert alert-danger">@Model.ErrorMessage</div>
+                    }
+
+                    @if (Model.RegistroExitoso)
+                    {
+                        <div class="alert alert-success">
+                            Registro exitoso. <a href="/Cliente/Login" class="alert-link">Iniciar sesión</a>
+                        </div>
+                    }
+                    else
+                    {
+                        <form method="post">
+                            <div class="mb-3">
+                                <label asp-for="Usuario.Nombre" class="form-label">Nombre</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" asp-for="Usuario.Nombre" required>
+                                    <span class="input-group-text"><i class="bi bi-person-fill"></i></span>
+                                </div>
+                                <span asp-validation-for="Usuario.Nombre" class="text-danger"></span>
+                            </div>
+
+                            <div class="mb-3">
+                                <label asp-for="Usuario.Apellidos" class="form-label">Apellidos</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" asp-for="Usuario.Apellidos" required>
+                                    <span class="input-group-text"><i class="bi bi-person-fill"></i></span>
+                                </div>
+                                <span asp-validation-for="Usuario.Apellidos" class="text-danger"></span>
+                            </div>
+
+                            <div class="mb-3">
+                                <label asp-for="Usuario.Correo" class="form-label">Correo electrónico</label>
+                                <div class="input-group">
+                                    <input type="email" class="form-control" asp-for="Usuario.Correo" required>
+                                    <span class="input-group-text"><i class="bi bi-envelope-fill"></i></span>
+                                </div>
+                                <span asp-validation-for="Usuario.Correo" class="text-danger"></span>
+                            </div>
+
+                            <div class="mb-3">
+                                <label asp-for="Usuario.Contrasena" class="form-label">Contraseña</label>
+                                <div class="input-group">
+                                    <input type="password" class="form-control" asp-for="Usuario.Contrasena" id="password" required>
+                                    <span class="input-group-text" onclick="togglePassword('password')">
+                                        <i class="bi bi-eye-fill"></i>
+                                    </span>
+                                </div>
+                                <span asp-validation-for="Usuario.Contrasena" class="text-danger"></span>
+                            </div>
+
+                            <div class="mb-3">
+                                <label asp-for="ConfirmarContrasena" class="form-label">Confirmar contraseña</label>
+                                <div class="input-group">
+                                    <input type="password" class="form-control" asp-for="ConfirmarContrasena" id="confirmPassword" required>
+                                    <span class="input-group-text" onclick="togglePassword('confirmPassword')">
+                                        <i class="bi bi-eye-fill"></i>
+                                    </span>
+                                </div>
+                                <span asp-validation-for="ConfirmarContrasena" class="text-danger"></span>
+                            </div>
+
+                            <div class="mb-3">
+                                <label asp-for="Usuario.Identificacion" class="form-label">Identificación</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" asp-for="Usuario.Identificacion" required>
+                                    <span class="input-group-text"><i class="bi bi-card-text"></i></span>
+                                </div>
+                                <span asp-validation-for="Usuario.Identificacion" class="text-danger"></span>
+                            </div>
+
+                            <div class="d-grid gap-2">
+                                <button type="submit" class="btn btn-success">Registrarse</button>
+                                <a href="/Cliente/login" class="btn btn-secondary">Regresar</a>
+                            </div>
+                        </form>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function togglePassword(id) {
+            var x = document.getElementById(id);
+            if (x.type === "password") {
+                x.type = "text";
+            } else {
+                x.type = "password";
+            }
+        }
+    </script>
+}
+
+

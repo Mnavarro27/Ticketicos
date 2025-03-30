@@ -1,0 +1,263 @@
+﻿@page
+@model WebApplication1.Pages.Cliente.BilleteraModel
+@{
+    ViewData["Title"] = "Tickicos - Mi Billetera Virtual";
+}
+
+<style>
+    .bg-neon {
+        background-color: #C1FF00;
+    }
+
+    .text-neon {
+        color: #C1FF00;
+    }
+
+    .bg-panel {
+        background-color: #333333;
+    }
+
+    .wallet-card {
+        background: linear-gradient(135deg, #333 0%, #111 100%);
+        border-radius: 15px;
+        padding: 20px;
+        color: white;
+        margin-bottom: 20px;
+        position: relative;
+        overflow: hidden;
+    }
+
+        .wallet-card.amex {
+            background: linear-gradient(135deg, #016fd0 0%, #0057a0 100%);
+        }
+
+        .wallet-card.visa {
+            background: linear-gradient(135deg, #0c4da2 0%, #16216a 100%);
+        }
+
+        .wallet-card.mastercard {
+            background: linear-gradient(135deg, #ff5f00 0%, #f79e1b 100%);
+        }
+
+    .card-number {
+        font-size: 1.2rem;
+        letter-spacing: 2px;
+        margin: 15px 0;
+    }
+
+    .card-details {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .card-logo {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        font-size: 1.5rem;
+        font-weight: bold;
+    }
+
+    .card-chip {
+        width: 40px;
+        height: 30px;
+        background: linear-gradient(135deg, #bbb 0%, #ddd 100%);
+        border-radius: 5px;
+        margin-bottom: 10px;
+    }
+</style>
+
+<div class="container-fluid bg-black min-vh-100 py-4">
+    <!-- Logo -->
+    <div class="d-flex justify-content-center mb-3">
+        <div class="bg-neon d-flex align-items-center justify-content-center" style="width: 70px; height: 70px; border-radius: 10px;">
+            <span class="fw-bold text-black">TICKICOS</span>
+        </div>
+    </div>
+
+    <!-- Panel principal -->
+    <div class="row justify-content-center">
+        <div class="col-12 col-xl-10">
+            <div class="bg-panel rounded-4 shadow-lg overflow-hidden mb-4">
+                <!-- Título -->
+                <div class="bg-neon p-2 text-center">
+                    <h4 class="fw-bold text-black mb-0">Mi Billetera Virtual</h4>
+                </div>
+
+                <div class="p-4">
+                    <!-- Mensajes de alerta -->
+                    @if (!string.IsNullOrEmpty(Model.MensajeExito))
+                    {
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            <i class="bi bi-check-circle-fill me-2"></i>
+                            @Model.MensajeExito
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    }
+
+                    @if (!string.IsNullOrEmpty(Model.MensajeError))
+                    {
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                            @Model.MensajeError
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    }
+
+                    <!-- Información sobre la billetera -->
+                    <div class="alert alert-info mb-4">
+                        <i class="bi bi-info-circle-fill me-2"></i>
+                        <strong>Billetera Virtual:</strong> Agrega tarjetas simuladas para realizar compras en el sistema.
+                        <span class="d-block mt-1">Las tarjetas American Express te dan acceso a preventas exclusivas.</span>
+                    </div>
+
+                    <!-- Botón para agregar tarjeta -->
+                    <div class="d-flex justify-content-end mb-4">
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addCardModal">
+                            <i class="bi bi-plus-circle me-2"></i> Agregar Tarjeta
+                        </button>
+                    </div>
+
+                    <!-- Tarjetas -->
+                    <div class="row">
+                        @if (Model.TarjetasUsuario.Any())
+                        {
+                            @foreach (var tarjeta in Model.TarjetasUsuario)
+                            {
+                                <div class="col-md-6 col-lg-4 mb-4">
+                                    <div class="wallet-card @(tarjeta.TipoTarjeta.ToLower().Replace(" ", ""))">
+                                        <div class="card-logo">
+                                            @if (tarjeta.TipoTarjeta == "American Express")
+                                            {
+                                                <span>AMEX</span>
+                                            }
+                                            else
+                                            {
+                                                <span>@tarjeta.TipoTarjeta</span>
+                                            }
+                                        </div>
+                                        <div class="card-chip"></div>
+                                        <div class="card-number">
+                                            **** **** **** @tarjeta.NumeroTarjeta.Substring(Math.Max(0, tarjeta.NumeroTarjeta.Length - 4))
+                                        </div>
+                                        <div class="card-details">
+                                            <div>
+                                                <small>Vencimiento</small>
+                                                <div>@tarjeta.Vencimiento</div>
+                                            </div>
+                                            <div>
+                                                <small>Saldo</small>
+                                                <div>₡100,000</div>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex justify-content-between mt-3">
+                                            <form method="post" asp-page-handler="EliminarTarjeta">
+                                                <input type="hidden" name="idTarjeta" value="@tarjeta.IdTarjeta" />
+                                                <button type="submit" class="btn btn-sm btn-danger">
+                                                    <i class="bi bi-trash me-1"></i> Eliminar
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        }
+                        else
+                        {
+                            <div class="col-12 text-center py-5">
+                                <i class="bi bi-credit-card text-muted" style="font-size: 4rem;"></i>
+                                <h4 class="text-muted mt-3">No tienes tarjetas en tu billetera virtual</h4>
+                                <p class="text-muted">Agrega una tarjeta para realizar compras en el sistema</p>
+                                <p class="text-neon">Las tarjetas American Express te dan acceso a preventas exclusivas</p>
+                            </div>
+                        }
+                    </div>
+
+                    <!-- Enlaces de navegación -->
+                    <div class="d-flex justify-content-between mt-4">
+                        <a href="/Cliente/preventa" class="btn btn-outline-light">
+                            <i class="bi bi-ticket-perforated me-2"></i> Ver Preventas
+                        </a>
+                        <a href="/Cliente/Index" class="btn btn-outline-light">
+                            <i class="bi bi-house me-2"></i> Ir al Inicio
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal para agregar tarjeta -->
+<div class="modal fade" id="addCardModal" tabindex="-1" aria-labelledby="addCardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content bg-dark text-white">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addCardModalLabel">Agregar Tarjeta</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form method="post" asp-page-handler="AgregarTarjeta">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="TipoTarjeta" class="form-label">Tipo de Tarjeta</label>
+                        <select id="TipoTarjeta" name="NuevaTarjeta.TipoTarjeta" class="form-select bg-dark text-white" required>
+                            <option value="American Express">American Express</option>
+                            <option value="Visa">Visa</option>
+                            <option value="MasterCard">MasterCard</option>
+                        </select>
+                        <small class="form-text text-muted">Solo las tarjetas American Express tienen acceso a preventas exclusivas</small>
+                    </div>
+                    <div class="mb-3">
+                        <label for="NumeroTarjeta" class="form-label">Número de Tarjeta</label>
+                        <input type="text" id="NumeroTarjeta" name="NuevaTarjeta.NumeroTarjeta" class="form-control bg-dark text-white" placeholder="XXXX XXXX XXXX XXXX" required maxlength="19">
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="Vencimiento" class="form-label">Fecha de Vencimiento</label>
+                            <input type="text" id="Vencimiento" name="NuevaTarjeta.Vencimiento" class="form-control bg-dark text-white" placeholder="MM/YYYY" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="CVV" class="form-label">CVV</label>
+                            <input type="text" id="CVV" name="NuevaTarjeta.CVV" class="form-control bg-dark text-white" placeholder="XXX" required maxlength="4">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Agregar Tarjeta</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Formateo de número de tarjeta
+            const numeroTarjeta = document.getElementById('NumeroTarjeta');
+            if (numeroTarjeta) {
+                numeroTarjeta.addEventListener('input', function(e) {
+                    let value = e.target.value.replace(/\D/g, '');
+                    if (value.length > 0) {
+                        value = value.match(new RegExp('.{1,4}', 'g')).join(' ');
+                    }
+                    e.target.value = value;
+                });
+            }
+
+            // Formateo de fecha de vencimiento
+            const vencimiento = document.getElementById('Vencimiento');
+            if (vencimiento) {
+                vencimiento.addEventListener('input', function(e) {
+                    let value = e.target.value.replace(/\D/g, '');
+                    if (value.length > 2) {
+                        value = value.substring(0, 2) + '/' + value.substring(2, 6);
+                    }
+                    e.target.value = value;
+                });
+            }
+        });
+    </script>
+}
+

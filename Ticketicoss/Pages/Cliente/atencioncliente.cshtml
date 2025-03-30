@@ -1,0 +1,392 @@
+﻿@page
+@model WebApplication1.Pages.Cliente.AtencionClienteModel
+@{
+    ViewData["Title"] = "Tickicos - Atención al Cliente";
+}
+
+<style>
+    :root {
+        --color-neon: rgb(193, 255, 0);
+        --color-fondo: black;
+        --color-panel: rgb(80, 80, 80);
+        --color-tarjeta: rgb(70, 70, 70);
+    }
+
+    body {
+        background-color: var(--color-fondo);
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+    .logo-container {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+    }
+
+    .logo {
+        width: 70px;
+        height: 70px;
+        background-color: var(--color-neon);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .main-panel {
+        width: 1100px;
+        height: 650px;
+        margin: 30px auto;
+        background-color: var(--color-panel);
+        border-radius: 20px;
+        position: relative;
+    }
+
+    .title {
+        width: 100%;
+        height: 40px;
+        background-color: var(--color-neon);
+        color: black;
+        font-size: 16px;
+        font-weight: bold;
+        text-align: center;
+        line-height: 40px;
+        border-top-left-radius: 20px;
+        border-top-right-radius: 20px;
+    }
+
+    .content-panel {
+        display: flex;
+        height: 610px;
+    }
+
+    .left-panel {
+        width: 70%;
+        padding: 20px;
+    }
+
+    .right-panel {
+        width: 30%;
+        padding: 20px;
+        border-left: 1px solid #444;
+    }
+
+    .search-box {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    .search-input {
+        width: 80%;
+        padding: 8px;
+        border: none;
+        background-color: #444;
+        color: white;
+    }
+
+    .search-button {
+        width: 18%;
+        padding: 8px;
+        border: none;
+        background-color: var(--color-neon);
+        color: black;
+        cursor: pointer;
+    }
+
+    .faq-section {
+        margin-bottom: 30px;
+    }
+
+    .faq-title {
+        color: var(--color-neon);
+        font-size: 18px;
+        margin-bottom: 15px;
+    }
+
+    .faq-item {
+        background-color: var(--color-tarjeta);
+        padding: 15px;
+        margin-bottom: 10px;
+        border-radius: 5px;
+    }
+
+    .faq-question {
+        color: white;
+        font-weight: bold;
+        margin-bottom: 10px;
+        cursor: pointer;
+    }
+
+    .faq-answer {
+        color: #ddd;
+        display: none;
+        padding: 10px;
+        background-color: #555;
+        border-radius: 5px;
+        margin-top: 10px;
+    }
+
+    .chat-section {
+        margin-top: 30px;
+    }
+
+    .chat-title {
+        color: var(--color-neon);
+        font-size: 18px;
+        margin-bottom: 15px;
+    }
+
+    .chat-box {
+        height: 200px;
+        background-color: var(--color-tarjeta);
+        padding: 15px;
+        border-radius: 5px;
+        margin-bottom: 10px;
+        overflow-y: auto;
+    }
+
+    .chat-input {
+        width: 80%;
+        padding: 8px;
+        border: none;
+        background-color: #444;
+        color: white;
+    }
+
+    .chat-button {
+        width: 18%;
+        padding: 8px;
+        border: none;
+        background-color: var(--color-neon);
+        color: black;
+        cursor: pointer;
+    }
+
+    .tickets-title {
+        color: var(--color-neon);
+        font-size: 18px;
+        margin-bottom: 15px;
+    }
+
+    .tickets-list {
+        background-color: var(--color-tarjeta);
+        padding: 15px;
+        border-radius: 5px;
+        height: 500px;
+        overflow-y: auto;
+    }
+
+    .ticket-item {
+        padding: 10px;
+        border-bottom: 1px solid #555;
+        cursor: pointer;
+    }
+
+        .ticket-item:hover {
+            background-color: #555;
+        }
+
+    .ticket-message {
+        color: white;
+        font-size: 14px;
+        margin-bottom: 5px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .ticket-date {
+        color: #aaa;
+        font-size: 12px;
+    }
+
+    .ticket-status {
+        display: inline-block;
+        padding: 3px 8px;
+        border-radius: 10px;
+        font-size: 12px;
+        margin-left: 10px;
+    }
+
+    .status-abierto {
+        background-color: green;
+        color: white;
+    }
+
+    .status-en-proceso {
+        background-color: orange;
+        color: black;
+    }
+
+    .status-cerrado {
+        background-color: red;
+        color: white;
+    }
+
+    .home-button {
+        position: absolute;
+        top: 10px;
+        right: 10px; /* Mueve el botón a la derecha */
+        background-color: var(--color-neon);
+        color: black;
+        border: none;
+        padding: 5px 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        text-decoration: none;
+        font-weight: bold;
+        z-index: 100;
+    }
+
+</style>
+
+<div class="logo-container">
+    <div class="logo">
+        <img src="~/images/logo.png" alt="Tickicos Logo" />
+    </div>
+</div>
+
+<div class="main-panel">
+    <a href="/Cliente/Inicio" class="home-button">Inicio</a>
+    <div class="title">Atención al Cliente</div>
+    <div class="content-panel">
+        <div class="left-panel">
+            <form method="post" asp-page-handler="Buscar">
+                <div class="search-box">
+                    <input type="text" asp-for="TerminoBusqueda" class="search-input" placeholder="Buscar preguntas frecuentes...">
+                    <button type="submit" class="search-button">Buscar</button>
+                </div>
+            </form>
+
+            <div class="faq-section">
+                <div class="faq-title">Preguntas Frecuentes</div>
+                @if (Model.PreguntasFrecuentes != null && Model.PreguntasFrecuentes.Any())
+                {
+                    foreach (var pregunta in Model.PreguntasFrecuentes)
+                    {
+                        <div class="faq-item">
+                            <div class="faq-question" onclick="toggleAnswer(@pregunta.Id)">@pregunta.Pregunta</div>
+                            <div class="faq-answer" id="answer-@pregunta.Id">@pregunta.Respuesta</div>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <p style="color: white;">No hay preguntas frecuentes disponibles.</p>
+                }
+            </div>
+
+            <div class="chat-section">
+                <div class="chat-title">Chat en Vivo</div>
+                <div class="chat-box" id="chatBox">
+                    <p style="color: white;">Bienvenido al chat de soporte. ¿En qué podemos ayudarte?</p>
+                </div>
+                <div>
+                    <input type="text" id="chatInput" class="chat-input" placeholder="Escribe tu mensaje...">
+                    <button id="sendButton" class="chat-button">Enviar</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="right-panel">
+            <div class="tickets-title">Mis Tickets</div>
+            <div class="tickets-list">
+                @if (Model.TicketsUsuario != null && Model.TicketsUsuario.Any())
+                {
+                    foreach (var ticket in Model.TicketsUsuario)
+                    {
+                        <div class="ticket-item">
+                            <div class="ticket-message">@ticket.Mensaje</div>
+                            <div class="ticket-date">
+                                @ticket.Fecha.ToString("dd/MM/yyyy HH:mm")
+                                <span class="ticket-status status-@ticket.Estado.ToLower()">@ticket.Estado</span>
+                            </div>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <p style="color: white;">No tienes tickets de soporte.</p>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function toggleAnswer(id) {
+        const answer = document.getElementById(`answer-${id}`);
+        if (answer.style.display === "block") {
+            answer.style.display = "none";
+        } else {
+            answer.style.display = "block";
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const chatBox = document.getElementById('chatBox');
+        const chatInput = document.getElementById('chatInput');
+        const sendButton = document.getElementById('sendButton');
+
+        sendButton.addEventListener('click', function() {
+            sendMessage();
+        });
+
+        chatInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        function sendMessage() {
+            const message = chatInput.value.trim();
+            if (message) {
+                // Agregar mensaje del usuario al chat
+                appendMessage('Tú', message);
+                chatInput.value = '';
+
+                // Simular respuesta automática
+                setTimeout(function() {
+                    appendMessage('Agente', 'Gracias por contactarnos. Un agente revisará tu mensaje y te responderá pronto.');
+
+                    // Crear ticket con el mensaje
+                    createTicket(message);
+                }, 1000);
+            }
+        }
+
+        function appendMessage(sender, text) {
+            const messageElement = document.createElement('p');
+            messageElement.style.color = sender === 'Tú' ? '#BFF747' : 'white';
+            messageElement.innerHTML = `<strong>${sender}:</strong> ${text}`;
+            chatBox.appendChild(messageElement);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        function createTicket(message) {
+            fetch('/Cliente/AtencionCliente?handler=CrearTicket', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
+                },
+                body: JSON.stringify({ mensaje: message })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    appendMessage('Sistema', 'Se ha creado un ticket con tu consulta. Puedes ver el estado en la sección "Mis Tickets".');
+                    // Recargar la página para actualizar la lista de tickets
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 3000);
+                } else {
+                    appendMessage('Sistema', 'Error: ' + data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                appendMessage('Sistema', 'Ocurrió un error al crear el ticket.');
+            });
+        }
+    });
+</script>

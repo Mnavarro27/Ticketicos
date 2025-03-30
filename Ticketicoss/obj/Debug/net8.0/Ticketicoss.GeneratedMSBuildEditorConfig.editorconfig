@@ -1,55 +1,121 @@
 is_global = true
 build_property.TargetFramework = net8.0
-build_property.TargetFramework = net8.0
-build_property.TargetPlatformMinVersion = 
 build_property.TargetPlatformMinVersion = 
 build_property.UsingMicrosoftNETSdkWeb = true
-build_property.UsingMicrosoftNETSdkWeb = true
-build_property.ProjectTypeGuids = 
 build_property.ProjectTypeGuids = 
 build_property.InvariantGlobalization = 
-build_property.InvariantGlobalization = 
-build_property.PlatformNeutralAssembly = 
 build_property.PlatformNeutralAssembly = 
 build_property.EnforceExtendedAnalyzerRules = 
-build_property.EnforceExtendedAnalyzerRules = 
-build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = Ticketicoss
 build_property.RootNamespace = Ticketicoss
-build_property.ProjectDir = C:\Users\Usuario\Desktop\sitios web\Ticketicoss\Ticketicoss\
+build_property.ProjectDir = C:\Users\XCPC\Desktop\Ticketicos\Ticketicoss\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 8.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = C:\Users\Usuario\Desktop\sitios web\Ticketicoss\Ticketicoss
+build_property.MSBuildProjectDirectory = C:\Users\XCPC\Desktop\Ticketicos\Ticketicoss
 build_property._RazorSourceGeneratorDebug = 
+build_property.EffectiveAnalysisLevelStyle = 8.0
+build_property.EnableCodeStyleSeverity = 
 
-[C:/Users/Usuario/Desktop/sitios web/Ticketicoss/Ticketicoss/Pages/Error.cshtml]
+[C:/Users/XCPC/Desktop/Ticketicos/Ticketicoss/Pages/administrativo/admincodigospromo.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcYWRtaW5pc3RyYXRpdm9cYWRtaW5jb2RpZ29zcHJvbW8uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/XCPC/Desktop/Ticketicos/Ticketicoss/Pages/administrativo/admineventosdestacado.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcYWRtaW5pc3RyYXRpdm9cYWRtaW5ldmVudG9zZGVzdGFjYWRvLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/XCPC/Desktop/Ticketicos/Ticketicoss/Pages/administrativo/adminpreventa.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcYWRtaW5pc3RyYXRpdm9cYWRtaW5wcmV2ZW50YS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/XCPC/Desktop/Ticketicos/Ticketicoss/Pages/administrativo/gestionclientes.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcYWRtaW5pc3RyYXRpdm9cZ2VzdGlvbmNsaWVudGVzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/XCPC/Desktop/Ticketicos/Ticketicoss/Pages/administrativo/gestionroles.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcYWRtaW5pc3RyYXRpdm9cZ2VzdGlvbnJvbGVzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/XCPC/Desktop/Ticketicos/Ticketicoss/Pages/administrativo/HistorialdeCompras.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcYWRtaW5pc3RyYXRpdm9cSGlzdG9yaWFsZGVDb21wcmFzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/XCPC/Desktop/Ticketicos/Ticketicoss/Pages/Cliente/atencioncliente.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ2xpZW50ZVxhdGVuY2lvbmNsaWVudGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/XCPC/Desktop/Ticketicos/Ticketicoss/Pages/Cliente/billetera.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ2xpZW50ZVxiaWxsZXRlcmEuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/XCPC/Desktop/Ticketicos/Ticketicoss/Pages/Cliente/codigospromo.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ2xpZW50ZVxjb2RpZ29zcHJvbW8uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/XCPC/Desktop/Ticketicos/Ticketicoss/Pages/Cliente/doblefactor.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ2xpZW50ZVxkb2JsZWZhY3Rvci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/XCPC/Desktop/Ticketicos/Ticketicoss/Pages/Cliente/eventosdestacados.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ2xpZW50ZVxldmVudG9zZGVzdGFjYWRvcy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/XCPC/Desktop/Ticketicos/Ticketicoss/Pages/Cliente/factura.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ2xpZW50ZVxmYWN0dXJhLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/XCPC/Desktop/Ticketicos/Ticketicoss/Pages/Cliente/login.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ2xpZW50ZVxsb2dpbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/XCPC/Desktop/Ticketicos/Ticketicoss/Pages/Cliente/pagocodigos.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ2xpZW50ZVxwYWdvY29kaWdvcy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/XCPC/Desktop/Ticketicos/Ticketicoss/Pages/Cliente/pagoentradas.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ2xpZW50ZVxwYWdvZW50cmFkYXMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/XCPC/Desktop/Ticketicos/Ticketicoss/Pages/Cliente/preventa.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ2xpZW50ZVxwcmV2ZW50YS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/XCPC/Desktop/Ticketicos/Ticketicoss/Pages/Cliente/registro.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ2xpZW50ZVxyZWdpc3Ryby5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/XCPC/Desktop/Ticketicos/Ticketicoss/Pages/Cliente/ResetPassword.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ2xpZW50ZVxSZXNldFBhc3N3b3JkLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/XCPC/Desktop/Ticketicos/Ticketicoss/Pages/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRXJyb3IuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Usuario/Desktop/sitios web/Ticketicoss/Ticketicoss/Pages/Index.cshtml]
+[C:/Users/XCPC/Desktop/Ticketicos/Ticketicoss/Pages/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Usuario/Desktop/sitios web/Ticketicoss/Ticketicoss/Pages/Privacy.cshtml]
+[C:/Users/XCPC/Desktop/Ticketicos/Ticketicoss/Pages/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUHJpdmFjeS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Usuario/Desktop/sitios web/Ticketicoss/Ticketicoss/Pages/Shared/_ValidationScriptsPartial.cshtml]
+[C:/Users/XCPC/Desktop/Ticketicos/Ticketicoss/Pages/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Usuario/Desktop/sitios web/Ticketicoss/Ticketicoss/Pages/_ViewImports.cshtml]
+[C:/Users/XCPC/Desktop/Ticketicos/Ticketicoss/Pages/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Usuario/Desktop/sitios web/Ticketicoss/Ticketicoss/Pages/_ViewStart.cshtml]
+[C:/Users/XCPC/Desktop/Ticketicos/Ticketicoss/Pages/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Usuario/Desktop/sitios web/Ticketicoss/Ticketicoss/Pages/Shared/_Layout.cshtml]
+[C:/Users/XCPC/Desktop/Ticketicos/Ticketicoss/Pages/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-zdznidacxc

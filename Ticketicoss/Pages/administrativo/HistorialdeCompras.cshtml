@@ -1,0 +1,254 @@
+﻿@page "{idUsuario:int}"
+@model WebApplication1.Pages.Admin.HistorialComprasUsuarioModel
+@{
+    ViewData["Title"] = "Historial de Compras";
+}
+
+<div style="background-color: black; min-height: 100vh; padding: 20px;">
+    <!-- Logo -->
+    <div style="text-align: center; margin-bottom: 20px;">
+        <div style="width: 70px; height: 70px; background-color: #C1FF00; display: inline-block;">
+            <img src="/images/logo.png" alt="Logo" style="width: 100%; height: 100%; object-fit: contain;" />
+        </div>
+    </div>
+
+    <!-- Panel Principal -->
+    <div style="max-width: 1200px; margin: 0 auto;">
+        <!-- Título Principal -->
+        <div style="background-color: #C1FF00; color: black; padding: 10px; text-align: center; font-weight: bold; font-size: 20px; margin-bottom: 20px;">
+            Historial de Compras
+        </div>
+
+        @if (!string.IsNullOrEmpty(Model.MensajeExito))
+        {
+            <div style="background-color: green; color: white; padding: 10px; margin-bottom: 20px; border-radius: 5px;">
+                @Model.MensajeExito
+            </div>
+        }
+
+        @if (!string.IsNullOrEmpty(Model.MensajeError))
+        {
+            <div style="background-color: red; color: white; padding: 10px; margin-bottom: 20px; border-radius: 5px;">
+                @Model.MensajeError
+            </div>
+        }
+
+        <!-- Información del Usuario -->
+        <div style="background-color: #464646; padding: 15px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center;">
+            <div>
+                <h2 style="color: white; font-size: 18px; margin: 0;">@Model.NombreUsuario</h2>
+                <p style="color: #aaa; margin: 5px 0 0 0;">@Model.CorreoUsuario</p>
+            </div>
+            <a href="/Admin/GestionUsuarios" style="background-color: #555; color: white; padding: 8px 15px; text-decoration: none; display: inline-block;">
+                <i class="fas fa-arrow-left" style="margin-right: 5px;"></i> Volver a Gestión de Usuarios
+            </a>
+        </div>
+
+        @if (Model.Compras.Count == 0)
+        {
+            <div style="background-color: #464646; padding: 30px; text-align: center;">
+                <p style="color: white; font-size: 18px; margin-bottom: 10px;">Este usuario no tiene compras registradas.</p>
+                <p style="color: #aaa;">Cuando el usuario realice compras, aparecerán en esta sección.</p>
+            </div>
+        }
+        else
+        {
+            <!-- Historial de Compras -->
+            <div>
+                @foreach (var compra in Model.Compras)
+                {
+                    <div style="background-color: #464646; margin-bottom: 20px;">
+                        <!-- Encabezado de la Compra -->
+                        <div style="background-color: #555555; padding: 15px; display: flex; justify-content: space-between; align-items: center;">
+                            <div>
+                                <div style="display: flex; align-items: center;">
+                                    <span style="color: white; font-weight: bold;">Compra #@compra.IdCompra</span>
+                                    <span style="margin-left: 15px; padding: 3px 8px; border-radius: 3px; font-size: 12px;
+                                        @(compra.Estado == "pagado" ? "background-color: #4CAF50; color: white;" :
+                                          compra.Estado == "pendiente" ? "background-color: #FFC107; color: black;" :
+                                          "background-color: #F44336; color: white;")">
+                                        @compra.Estado.ToUpper()
+                                    </span>
+                                </div>
+                                <p style="color: #aaa; font-size: 14px; margin: 5px 0 0 0;">Fecha: @compra.Fecha.ToString("dd/MM/yyyy HH:mm")</p>
+                                @if (!string.IsNullOrEmpty(compra.NumeroFactura))
+                                {
+                                    <p style="color: #aaa; font-size: 14px; margin: 5px 0 0 0;">Factura: @compra.NumeroFactura</p>
+                                }
+                            </div>
+                            <div style="text-align: right;">
+                                <p style="color: white; margin: 0;">Total: <span style="color: #C1FF00; font-weight: bold;">₡@compra.Total.ToString("N0")</span></p>
+                                @if (compra.DescuentoAplicado > 0)
+                                {
+                                    <p style="color: #aaa; font-size: 14px; margin: 5px 0 0 0;">
+                                        Descuento: ₡@compra.DescuentoAplicado.ToString("N0")
+                                        @if (!string.IsNullOrEmpty(compra.CodigoPromocional))
+                                        {
+                                            <span> (Código: @compra.CodigoPromocional)</span>
+                                        }
+                                    </p>
+                                }
+                            </div>
+                        </div>
+
+                        <!-- Detalles de la Compra -->
+                        <div style="padding: 15px;">
+                            <h3 style="color: white; font-size: 16px; margin-top: 0; margin-bottom: 15px;">Boletos</h3>
+
+                            <div style="overflow-x: auto;">
+                                <table style="width: 100%; border-collapse: collapse;">
+                                    <thead>
+                                        <tr style="border-bottom: 1px solid #555555;">
+                                            <th style="padding: 10px; text-align: left; color: white;">Evento</th>
+                                            <th style="padding: 10px; text-align: left; color: white;">Fecha</th>
+                                            <th style="padding: 10px; text-align: left; color: white;">Categoría</th>
+                                            <th style="padding: 10px; text-align: center; color: white;">Cantidad</th>
+                                            <th style="padding: 10px; text-align: right; color: white;">Subtotal</th>
+                                            <th style="padding: 10px; text-align: center; color: white;">Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var detalle in compra.Detalles)
+                                        {
+                                            <tr style="border-bottom: 1px solid #555555;">
+                                                <td style="padding: 10px; color: white;">
+                                                    <div>@detalle.NombreEvento</div>
+                                                    <div style="color: #aaa; font-size: 12px;">@detalle.LugarEvento</div>
+                                                </td>
+                                                <td style="padding: 10px; color: white;">@detalle.FechaEvento.ToString("dd/MM/yyyy HH:mm")</td>
+                                                <td style="padding: 10px; color: white;">@detalle.Categoria</td>
+                                                <td style="padding: 10px; text-align: center; color: white;">@detalle.Cantidad</td>
+                                                <td style="padding: 10px; text-align: right; color: white;">₡@detalle.Subtotal.ToString("N0")</td>
+                                                <td style="padding: 10px; text-align: center;">
+                                                    <button type="button" onclick="mostrarModalReenvio(@compra.IdCompra, @detalle.IdDetalle, '@detalle.NombreEvento')"
+                                                            style="background-color: #2196F3; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 3px;">
+                                                        <i class="fas fa-envelope" style="margin-right: 5px;"></i> Reenviar
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <!-- Acciones de la Compra -->
+                            <div style="margin-top: 15px; text-align: right;">
+                                <div style="position: relative; display: inline-block;">
+                                    <button type="button" onclick="toggleEstadoDropdown(@compra.IdCompra)"
+                                            style="background-color: #C1FF00; color: black; border: none; padding: 8px 15px; cursor: pointer; border-radius: 3px;">
+                                        Cambiar Estado <i class="fas fa-chevron-down" style="margin-left: 5px;"></i>
+                                    </button>
+                                    <div id="estado-dropdown-@compra.IdCompra" class="estado-dropdown"
+                                         style="display: none; position: absolute; right: 0; background-color: #3a3a3a; min-width: 180px; box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); z-index: 1;">
+                                        @if (compra.Estado != "pagado")
+                                        {
+                                            <form method="post" asp-page-handler="CambiarEstadoCompra" asp-route-idCompra="@compra.IdCompra" asp-route-nuevoEstado="pagado">
+                                                <button type="submit" style="width: 100%; text-align: left; background: none; border: none; color: white; padding: 10px 15px; cursor: pointer;">
+                                                    <i class="fas fa-check-circle" style="color: #4CAF50; margin-right: 8px;"></i> Marcar como Pagado
+                                                </button>
+                                            </form>
+                                        }
+                                        @if (compra.Estado != "pendiente")
+                                        {
+                                            <form method="post" asp-page-handler="CambiarEstadoCompra" asp-route-idCompra="@compra.IdCompra" asp-route-nuevoEstado="pendiente">
+                                                <button type="submit" style="width: 100%; text-align: left; background: none; border: none; color: white; padding: 10px 15px; cursor: pointer;">
+                                                    <i class="fas fa-clock" style="color: #FFC107; margin-right: 8px;"></i> Marcar como Pendiente
+                                                </button>
+                                            </form>
+                                        }
+                                        @if (compra.Estado != "cancelado")
+                                        {
+                                            <form method="post" asp-page-handler="CambiarEstadoCompra" asp-route-idCompra="@compra.IdCompra" asp-route-nuevoEstado="cancelado">
+                                                <button type="submit" style="width: 100%; text-align: left; background: none; border: none; color: white; padding: 10px 15px; cursor: pointer;">
+                                                    <i class="fas fa-ban" style="color: #F44336; margin-right: 8px;"></i> Marcar como Cancelado
+                                                </button>
+                                            </form>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+</div>
+
+<!-- Modal de Reenvío de Boletos -->
+<div id="modalReenvio" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.7); z-index: 1000;">
+    <div style="background-color: #464646; width: 90%; max-width: 500px; margin: 100px auto; padding: 20px; border-radius: 5px;">
+        <h3 style="color: white; font-size: 18px; margin-top: 0; margin-bottom: 15px;">Reenviar Boletos</h3>
+        <p style="color: white; margin-bottom: 5px;">¿Está seguro que desea reenviar los boletos para:</p>
+        <p id="eventoNombre" style="color: #C1FF00; font-weight: bold; margin-bottom: 20px;"></p>
+
+        <form id="formReenvio" method="post" asp-page-handler="ReenviarBoleto">
+            <input type="hidden" id="idCompraReenvio" name="idCompra" value="" />
+            <input type="hidden" id="idDetalleReenvio" name="idDetalle" value="" />
+
+            <div style="text-align: right;">
+                <button type="button" onclick="cerrarModalReenvio()"
+                        style="background-color: #555; color: white; border: none; padding: 8px 15px; margin-right: 10px; cursor: pointer; border-radius: 3px;">
+                    Cancelar
+                </button>
+                <button type="submit"
+                        style="background-color: #C1FF00; color: black; border: none; padding: 8px 15px; cursor: pointer; border-radius: 3px;">
+                    Reenviar Boletos
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function toggleEstadoDropdown(compraId) {
+            var dropdown = document.getElementById("estado-dropdown-" + compraId);
+
+            // Cerrar todos los dropdowns primero
+            var allDropdowns = document.getElementsByClassName("estado-dropdown");
+            for (var i = 0; i < allDropdowns.length; i++) {
+                if (allDropdowns[i].id !== "estado-dropdown-" + compraId) {
+                    allDropdowns[i].style.display = "none";
+                }
+            }
+
+            // Alternar el dropdown actual
+            if (dropdown.style.display === "none" || dropdown.style.display === "") {
+                dropdown.style.display = "block";
+            } else {
+                dropdown.style.display = "none";
+            }
+        }
+
+        function mostrarModalReenvio(idCompra, idDetalle, nombreEvento) {
+            document.getElementById('idCompraReenvio').value = idCompra;
+            document.getElementById('idDetalleReenvio').value = idDetalle;
+            document.getElementById('eventoNombre').textContent = nombreEvento;
+            document.getElementById('modalReenvio').style.display = "block";
+        }
+
+        function cerrarModalReenvio() {
+            document.getElementById('modalReenvio').style.display = "none";
+        }
+
+        // Cerrar dropdowns al hacer clic fuera de ellos
+        document.addEventListener("click", function(event) {
+            if (!event.target.closest("button")) {
+                var allDropdowns = document.getElementsByClassName("estado-dropdown");
+                for (var i = 0; i < allDropdowns.length; i++) {
+                    allDropdowns[i].style.display = "none";
+                }
+            }
+        });
+
+        // Cerrar modal al hacer clic fuera de él
+        window.onclick = function(event) {
+            var modal = document.getElementById('modalReenvio');
+            if (event.target == modal) {
+                cerrarModalReenvio();
+            }
+        }
+    </script>
+}
+

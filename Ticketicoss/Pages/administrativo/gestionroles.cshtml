@@ -1,0 +1,131 @@
+﻿@* gestionroles.cshtml *@
+@page
+@model Tickicos.Pages.Admin.GestionRolesModel
+@{
+    ViewData["Title"] = "Gestión de Roles";
+}
+
+<div class="min-h-screen bg-black">
+    <!-- Logo -->
+    <div class="flex justify-center py-5">
+        <div class="w-[70px] h-[70px] bg-[#C1FF00]">
+            <img src="/images/logo.png" alt="Logo" class="w-full h-full object-contain" />
+        </div>
+    </div>
+
+    <!-- Panel Principal -->
+    <div class="max-w-7xl mx-auto px-4 pb-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Roles del Sistema -->
+            <div class="bg-[#464646] rounded-lg overflow-hidden">
+                <div class="bg-[#C1FF00] text-black py-2 px-4 flex justify-between items-center">
+                    <h2 class="text-xl font-bold">Roles del Sistema</h2>
+                    <a href="/Admin/NuevoRol" class="bg-black text-[#C1FF00] px-4 py-1 rounded text-sm hover:bg-gray-900">
+                        <i class="fas fa-plus mr-2"></i> Nuevo Rol
+                    </a>
+                </div>
+                <div class="p-4">
+                    <p class="text-white mb-4">Define y gestiona los roles del sistema</p>
+                    <div class="overflow-x-auto">
+                        <table class="w-full">
+                            <thead>
+                                <tr class="text-white border-b border-[#505050]">
+                                    <th class="text-left py-2">Nombre del Rol</th>
+                                    <th class="text-left py-2">Usuarios</th>
+                                    <th class="text-left py-2">Permisos</th>
+                                    <th class="text-left py-2">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var rol in Model.Roles)
+                                {
+                                    <tr class="text-white border-b border-[#505050]">
+                                        <td class="py-3">@rol.Nombre</td>
+                                        <td class="py-3">@rol.Usuarios</td>
+                                        <td class="py-3">
+                                            @string.Join(", ", rol.Permisos)
+                                        </td>
+                                        <td class="py-3">
+                                            <div class="flex space-x-2">
+                                                <form method="post" asp-page-handler="EditarRol" asp-route-nombre="@rol.Nombre" class="inline">
+                                                    <button type="submit" class="text-[#C1FF00] hover:text-[#a8db00]">
+                                                        <i class="fas fa-edit"></i>
+                                                    </button>
+                                                </form>
+                                                <form method="post" asp-page-handler="EliminarRol" asp-route-nombre="@rol.Nombre" class="inline">
+                                                    <button type="submit" class="text-red-500 hover:text-red-600">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Asignación de Roles -->
+            <div class="bg-[#464646] rounded-lg overflow-hidden">
+                <div class="bg-[#C1FF00] text-black py-2 px-4">
+                    <h2 class="text-xl font-bold">Asignación de Roles</h2>
+                </div>
+                <div class="p-4">
+                    <p class="text-white mb-4">Asigna roles a los empleados</p>
+
+                    <!-- Barra de búsqueda -->
+                    <div class="mb-4">
+                        <form method="get" class="flex">
+                            <input type="text"
+                                   name="SearchTerm"
+                                   value="@Model.SearchTerm"
+                                   placeholder="Buscar empleado..."
+                                   class="flex-grow px-4 py-2 bg-[#3a3a3a] text-white rounded-l border border-[#505050]" />
+                            <button type="submit" class="px-4 py-2 bg-[#3a3a3a] text-white rounded-r border border-l-0 border-[#505050]">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </form>
+                    </div>
+
+                    <div class="overflow-x-auto">
+                        <table class="w-full">
+                            <thead>
+                                <tr class="text-white border-b border-[#505050]">
+                                    <th class="text-left py-2">Empleado</th>
+                                    <th class="text-left py-2">Rol Actual</th>
+                                    <th class="text-left py-2">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var empleado in Model.Empleados)
+                                {
+                                    <tr class="text-white border-b border-[#505050]">
+                                        <td class="py-3">@empleado.Nombre</td>
+                                        <td class="py-3">@empleado.RolActual</td>
+                                        <td class="py-3">
+                                            <button class="bg-[#3a3a3a] px-4 py-1 rounded hover:bg-[#505050]">
+                                                Cambiar Rol
+                                            </button>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: black;
+        }
+    </style>
+}

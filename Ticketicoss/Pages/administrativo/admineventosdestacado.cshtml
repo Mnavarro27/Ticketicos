@@ -1,0 +1,85 @@
+﻿@* admineventosdestacado.cshtml *@
+@page
+@model Tickicos.Pages.Admin.AdminEventosDestacadoModel
+@{
+    ViewData["Title"] = "Administración de Eventos Destacados";
+}
+
+<div class="min-h-screen bg-black">
+    <!-- Logo -->
+    <div class="flex justify-center py-5">
+        <div class="w-[70px] h-[70px] bg-[#C1FF00]">
+            <img src="/images/logo.png" alt="Logo" class="w-full h-full object-contain" />
+        </div>
+    </div>
+
+    <!-- Panel Principal -->
+    <div class="max-w-7xl mx-auto px-4">
+        <!-- Título Principal -->
+        <div class="bg-[#C1FF00] text-black py-2 px-4 text-xl font-bold text-center mb-4">
+            administracion Eventos Destacados
+        </div>
+
+        <!-- Botón Nuevo Código -->
+        <div class="flex justify-end mb-6">
+            <a href="/Admin/NuevoEvento" class="bg-[#C1FF00] text-black px-4 py-2 rounded hover:bg-[#a8db00]">
+                <i class="fas fa-plus mr-2"></i> Nuevo Código
+            </a>
+        </div>
+
+        <!-- Grid de Eventos -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            @foreach (var evento in Model.EventosDestacados)
+            {
+                <div class="bg-[#464646] rounded-lg overflow-hidden">
+                    <!-- Imagen del Evento -->
+                    <div class="relative h-48">
+                        <img src="@evento.ImagenUrl" alt="@evento.Nombre" class="w-full h-full object-cover" />
+                    </div>
+
+                    <!-- Información del Evento -->
+                    <div class="p-4">
+                        <div class="flex items-center mb-2">
+                            <i class="far fa-calendar mr-2 text-[#C1FF00]"></i>
+                            <span class="text-white">@evento.Fecha.ToString("dd/M/yyyy")</span>
+                        </div>
+                        <div class="flex items-center mb-2">
+                            <i class="far fa-clock mr-2 text-[#C1FF00]"></i>
+                            <span class="text-white">@evento.Hora</span>
+                        </div>
+                        <div class="flex items-center mb-4">
+                            <i class="fas fa-map-marker-alt mr-2 text-[#C1FF00]"></i>
+                            <span class="text-white">@evento.Lugar</span>
+                        </div>
+
+                        <!-- Botones de Acción -->
+                        <div class="flex justify-between">
+                            <form method="post" asp-page-handler="EditarEvento" asp-route-id="@evento.Id">
+                                <button type="submit"
+                                        class="bg-[#C1FF00] text-black px-4 py-1 rounded text-sm hover:bg-[#a8db00]">
+                                    Editar
+                                </button>
+                            </form>
+                            <form method="post" asp-page-handler="EliminarEvento" asp-route-id="@evento.Id">
+                                <button type="submit"
+                                        class="bg-red-500 text-white px-3 py-1 rounded text-sm hover:bg-red-600">
+                                    Eliminar
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: black;
+        }
+    </style>
+}

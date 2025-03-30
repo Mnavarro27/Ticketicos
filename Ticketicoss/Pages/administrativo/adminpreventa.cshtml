@@ -1,0 +1,112 @@
+﻿@page
+@model WebApplication1.Pages.Admin.AdminPreventaModel
+@{
+    ViewData["Title"] = "Administración de Preventas";
+}
+
+<div class="min-h-screen bg-black">
+    <!-- Logo -->
+    <div class="flex justify-center py-5">
+        <div class="w-[70px] h-[70px] bg-[#C1FF00]">
+            <img src="/images/logo.png" alt="Logo" class="w-full h-full object-contain" />
+        </div>
+    </div>
+
+    <!-- Panel Principal -->
+    <div class="max-w-7xl mx-auto px-4">
+        <!-- Título Principal -->
+        <div class="bg-[#C1FF00] text-black py-2 px-4 text-xl font-bold text-center mb-4">
+            Administración Preventas
+        </div>
+
+        @if (!string.IsNullOrEmpty(Model.MensajeExito))
+        {
+            <div class="bg-green-500 text-white p-3 mb-4 rounded">
+                @Model.MensajeExito
+            </div>
+        }
+
+        @if (!string.IsNullOrEmpty(Model.MensajeError))
+        {
+            <div class="bg-red-500 text-white p-3 mb-4 rounded">
+                @Model.MensajeError
+            </div>
+        }
+
+        <!-- Subtítulo y Botón Nueva Preventa -->
+        <div class="flex justify-between items-center mb-6">
+            <h2 class="text-white text-lg">Configura el acceso anticipado a eventos</h2>
+            <a href="/Admin/NuevaPreventa" class="bg-[#C1FF00] text-black px-4 py-2 rounded hover:bg-[#a8db00]">
+                <i class="fas fa-plus mr-2"></i> Nueva Preventa
+            </a>
+        </div>
+
+        @if (Model.Preventas.Count == 0)
+        {
+            <div class="bg-[#464646] rounded-lg p-8 text-center">
+                <p class="text-white text-lg mb-4">No hay preventas activas en este momento.</p>
+                <p class="text-gray-400">Crea una nueva preventa para permitir el acceso anticipado a eventos.</p>
+            </div>
+        }
+        else
+        {
+            <!-- Grid de Eventos -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                @foreach (var preventa in Model.Preventas)
+                {
+                    <div class="bg-[#464646] rounded-lg overflow-hidden">
+                        <!-- Imagen del Evento -->
+                        <div class="relative h-48">
+                            <img src="@preventa.ImagenUrl" alt="@preventa.Nombre" class="w-full h-full object-cover" />
+                        </div>
+
+                        <!-- Información del Evento -->
+                        <div class="p-4">
+                            <h3 class="text-white font-bold mb-2">@preventa.Nombre</h3>
+                            <div class="flex items-center mb-2">
+                                <i class="far fa-calendar mr-2 text-[#C1FF00]"></i>
+                                <span class="text-white">@preventa.Fecha.ToString("dd/MM/yyyy")</span>
+                            </div>
+                            <div class="flex items-center mb-2">
+                                <i class="far fa-clock mr-2 text-[#C1FF00]"></i>
+                                <span class="text-white">@preventa.Hora</span>
+                            </div>
+                            <div class="flex items-center mb-2">
+                                <i class="fas fa-map-marker-alt mr-2 text-[#C1FF00]"></i>
+                                <span class="text-white">@preventa.Lugar</span>
+                            </div>
+                            <div class="flex items-center mb-2">
+                                <i class="fas fa-calendar-alt mr-2 text-[#C1FF00]"></i>
+                                <span class="text-white">Preventa hasta: @preventa.FechaFin.ToString("dd/MM/yyyy")</span>
+                            </div>
+                            <div class="flex items-center justify-between mt-4">
+                                <div class="flex items-center">
+                                    <span class="text-white mr-2">Boletos:</span>
+                                    <span class="text-[#C1FF00] font-bold">@preventa.BoletosDisponibles</span>
+                                </div>
+                                <form method="post" asp-page-handler="EliminarPreventa" asp-route-id="@preventa.Id">
+                                    <button type="submit"
+                                            class="bg-red-500 text-white px-3 py-1 rounded text-sm hover:bg-red-600"
+                                            onclick="return confirm('¿Está seguro de que desea eliminar esta preventa?')">
+                                        Eliminar
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+</div>
+
+@section Styles {
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: black;
+        }
+    </style>
+}
+

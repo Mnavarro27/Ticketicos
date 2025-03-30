@@ -1,0 +1,228 @@
+﻿@page
+@model WebApplication1.Pages.Cliente.PreventaModel
+@{
+    ViewData["Title"] = "Tickicos - Preventas Disponibles";
+}
+
+<style>
+  .body {
+        background-color: black !important;
+        margin: 0;
+        padding: 0;
+        min-height: 100vh;
+    }
+    .bg-neon {
+        background-color: #C1FF00;
+    }
+
+    .text-neon {
+        color: #C1FF00;
+    }
+
+    .bg-panel {
+        background-color: #333333;
+    }
+
+    .card-img-top {
+        height: 180px;
+        object-fit: cover;
+    }
+
+    .wallet-card {
+        background: linear-gradient(135deg, #333 0%, #111 100%);
+        border-radius: 15px;
+        padding: 20px;
+        color: white;
+        margin-bottom: 20px;
+        position: relative;
+        overflow: hidden;
+    }
+
+        .wallet-card.amex {
+            background: linear-gradient(135deg, #016fd0 0%, #0057a0 100%);
+        }
+
+        .wallet-card.visa {
+            background: linear-gradient(135deg, #0c4da2 0%, #16216a 100%);
+        }
+
+        .wallet-card.mastercard {
+            background: linear-gradient(135deg, #ff5f00 0%, #f79e1b 100%);
+        }
+
+    .card-number {
+        font-size: 1.2rem;
+        letter-spacing: 2px;
+        margin: 15px 0;
+    }
+
+    .card-details {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .card-logo {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        font-size: 1.5rem;
+        font-weight: bold;
+    }
+</style>
+
+<div class="container-fluid bg-black min-vh-100 py-4">
+    <!-- Logo -->
+    <div class="d-flex justify-content-center mb-3">
+        <div class="bg-neon d-flex align-items-center justify-content-center" style="width: 70px; height: 70px; border-radius: 10px;">
+            <span class="fw-bold text-black">TICKICOS</span>
+        </div>
+    </div>
+
+    <!-- Panel principal -->
+    <div class="row justify-content-center">
+        <div class="col-12 col-xl-10">
+            <div class="bg-panel rounded-4 shadow-lg overflow-hidden mb-4">
+                <!-- Título -->
+                <div class="bg-neon p-2 text-center">
+                    <h4 class="fw-bold text-black mb-0">Preventas Disponibles</h4>
+                </div>
+
+                <div class="p-4">
+                    <!-- Mensaje de acceso -->
+                    <div class="alert @(Model.TieneAccesoPreventa ? "alert-success" : "alert-warning") mb-4">
+                        <i class="bi @(Model.TieneAccesoPreventa ? "bi-check-circle-fill" : "bi-exclamation-triangle-fill") me-2"></i>
+                        @Model.MensajeAcceso
+                        @if (!Model.TieneAccesoPreventa)
+                        {
+                            <div class="mt-2">
+                                <a href="/Cliente/billetera" class="btn btn-primary btn-sm">
+                                    <i class="bi bi-wallet2 me-1"></i> Ir a Mi Billetera
+                                </a>
+                            </div>
+                        }
+                    </div>
+
+                    <!-- Subtítulo -->
+                    <div class="text-center mb-4">
+                        <p class="text-white fs-5">Accede antes que nadie a los mejores eventos</p>
+                    </div>
+
+                    <!-- Filtros -->
+                    <div class="row mb-4">
+                        <div class="col-md-4 mb-2">
+                            <input type="text" id="searchEvent" class="form-control bg-dark text-white" placeholder="Buscar por evento...">
+                        </div>
+                        <div class="col-md-4 mb-2">
+                            <input type="text" id="searchLocation" class="form-control bg-dark text-white" placeholder="Filtrar por ubicación...">
+                        </div>
+                        <div class="col-md-4 mb-2">
+                            <input type="date" id="searchDate" class="form-control bg-dark text-white" placeholder="Filtrar por fecha...">
+                        </div>
+                    </div>
+
+                    <!-- Eventos -->
+                    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 g-4">
+                        @if (Model.Eventos != null && Model.Eventos.Any())
+                        {
+                            @foreach (var evento in Model.Eventos)
+                            {
+                                <div class="col">
+                                    <div class="card h-100 bg-dark text-white border-dark">
+                                        <img src="@(string.IsNullOrEmpty(evento.ImagenUrl) ? "/images/evento-default.jpg" : evento.ImagenUrl)"
+                                             class="card-img-top bg-secondary" alt="@evento.Nombre"
+                                             onerror="this.src='/images/evento-default.jpg'">
+                                        <div class="card-body">
+                                            <h5 class="card-title">@evento.Nombre</h5>
+                                            <p class="card-text mb-1">
+                                                <i class="bi bi-calendar-event me-2"></i>@evento.Fecha.ToString("dd/MM/yyyy")
+                                            </p>
+                                            <p class="card-text mb-1">
+                                                <i class="bi bi-clock me-2"></i>@evento.Fecha.ToString("HH:mm")
+                                            </p>
+                                            <p class="card-text mb-1">
+                                                <i class="bi bi-geo-alt me-2"></i>@evento.Lugar
+                                            </p>
+                                            <p class="card-text text-neon mb-3">
+                                                <i class="bi bi-ticket-perforated me-2"></i>Boletos disponibles
+                                            </p>
+                                            <!-- Botón de compra -->
+                                            <a href="@Url.Page("/Cliente/Compra", new { eventoId = evento.IdEvento })" class="btn btn-success w-100">Comprar boletos</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        }
+                        else
+                        {
+                            <div class="col-12 text-center py-5">
+                                <i class="bi bi-calendar-x text-muted" style="font-size: 4rem;"></i>
+                                <h4 class="text-muted mt-3">No hay eventos en preventa disponibles</h4>
+                                @if (!Model.TieneAccesoPreventa)
+                                {
+                                    <p class="text-muted">Agrega una tarjeta American Express para acceder a preventas exclusivas</p>
+                                    <a href="/Cliente/billetera" class="btn btn-outline-light mt-3">
+                                        <i class="bi bi-wallet2 me-2"></i> Ir a Mi Billetera
+                                    </a>
+                                }
+                                else
+                                {
+                                    <p class="text-muted">Vuelve pronto para ver nuevas preventas</p>
+                                }
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Filtrado de eventos
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Página de preventas cargada');
+
+            // Verificar si hay eventos
+            const eventCards = document.querySelectorAll('.card');
+            console.log('Número de eventos cargados:', eventCards.length);
+
+            const searchEvent = document.getElementById('searchEvent');
+            const searchLocation = document.getElementById('searchLocation');
+            const searchDate = document.getElementById('searchDate');
+
+            const cards = document.querySelectorAll('.card');
+
+            function filterEvents() {
+                const eventText = searchEvent?.value.toLowerCase() || '';
+                const locationText = searchLocation?.value.toLowerCase() || '';
+                const dateValue = searchDate?.value || '';
+
+                cards.forEach(card => {
+                    const title = card.querySelector('.card-title')?.textContent.toLowerCase() || '';
+                    const location = card.querySelector('.bi-geo-alt')?.parentNode.textContent.toLowerCase() || '';
+                    const dateElement = card.querySelector('.bi-calendar-event')?.parentNode;
+                    const dateText = dateElement ? dateElement.textContent.toLowerCase() : '';
+
+                    // Filtrado real basado en los datos de la tarjeta
+                    const matchesEvent = title.includes(eventText);
+                    const matchesLocation = location.includes(locationText);
+                    const matchesDate = dateValue === '' ? true : dateText.includes(dateValue);
+
+                    const parentCol = card.closest('.col');
+                    if (parentCol && matchesEvent && matchesLocation && matchesDate) {
+                        parentCol.style.display = '';
+                    } else if (parentCol) {
+                        parentCol.style.display = 'none';
+                    }
+                });
+            }
+
+            if (searchEvent) searchEvent.addEventListener('input', filterEvents);
+            if (searchLocation) searchLocation.addEventListener('input', filterEvents);
+            if (searchDate) searchDate.addEventListener('input', filterEvents);
+        });
+    </script>
+}
+
+

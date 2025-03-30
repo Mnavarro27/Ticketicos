@@ -1,0 +1,158 @@
+﻿@page
+@model WebApplication1.Pages.Cliente.TwoFactorAuthModel
+@{
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Verificación en Dos Pasos";
+}
+
+<style>
+    .bg-neon {
+        background-color: #C1FF00;
+    }
+
+    .text-neon {
+        color: #BFF747;
+    }
+
+    .code-box {
+        width: 50px;
+        height: 50px;
+        margin: 5px;
+        font-size: 24px;
+        text-align: center;
+        background-color: #333;
+        color: white;
+        border: 1px solid #BFF747;
+    }
+</style>
+
+<!-- Logo -->
+<div class="d-flex justify-content-center mb-3">
+    <div class="bg-neon d-flex align-items-center justify-content-center" style="width: 70px; height: 70px; border-radius: 10px;">
+        <span class="fw-bold text-black">TICKICOS</span>
+    </div>
+</div>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card bg-dark text-light">
+                <div class="card-body">
+                    <h2 class="text-center text-neon">Verificación en Dos Pasos</h2>
+                    <p class="text-center text-light">Ingresa el código de verificación enviado a tu correo electrónico</p>
+
+                    @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+                    {
+                        <div class="alert alert-danger">@Model.ErrorMessage</div>
+                    }
+
+                    @if (Model.SuccessMessage != null)
+                    {
+                        <div class="alert alert-success">@Model.SuccessMessage</div>
+                    }
+
+                    <form method="post">
+                        <!-- Campo para pegar el código completo -->
+                        <div class="mb-3">
+                            <label for="FullVerificationCode" class="form-label">Código de verificación (pegar completo)</label>
+                            <input type="text" class="form-control bg-dark text-light" id="FullVerificationCode" name="FullVerificationCode" maxlength="5" placeholder="Pega tu código aquí">
+                        </div>
+
+                        <p class="text-center text-light">O ingresa el código dígito por dígito:</p>
+
+                        <!-- Campos individuales para ingresar dígito por dígito -->
+                        <div class="mb-3 d-flex justify-content-center">
+                            @for (int i = 0; i < 5; i++)
+                            {
+                                <input type="text" maxlength="1" class="form-control bg-dark text-light code-box" asp-for="VerificationCode[i]" />
+                            }
+                        </div>
+
+                        <p class="text-center text-light">¿No recibiste el código o ha expirado?</p>
+                        <button type="button" class="btn btn-warning w-100" id="btnResend">Reenviar código</button>
+
+                        <button type="submit" class="btn btn-success w-100 mt-3">Verificar</button>
+                    </form>
+
+                    <div class="mt-3 text-center">
+                        <a href="/Cliente/Login" class="text-neon">Volver al inicio de sesión</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            // Manejar el enfoque automático entre cajas de código
+            $('.code-box').on('input', function() {
+                if ($(this).val().length === 1) {
+                    $(this).next('.code-box').focus();
+                }
+            });
+
+            // Manejar el retroceso para ir a la caja anterior
+            $('.code-box').on('keydown', function(e) {
+                if (e.keyCode === 8 && $(this).val().length === 0) {
+                    $(this).prev('.code-box').focus();
+                }
+            });
+
+            // Sincronizar el campo completo con los campos individuales
+            $('#FullVerificationCode').on('input', function() {
+                var code = $(this).val();
+                // Llenar los campos individuales
+                for (var i = 0; i < 5; i++) {
+                    if (i < code.length) {
+                        $('.code-box').eq(i).val(code[i]);
+                    } else {
+                        $('.code-box').eq(i).val('');
+                    }
+                }
+            });
+
+            // Sincronizar los campos individuales con el campo completo
+            $('.code-box').on('input', function() {
+                var code = '';
+                $('.code-box').each(function() {
+                    code += $(this).val();
+                });
+                $('#FullVerificationCode').val(code);
+            });
+
+            // Manejar el reenvío del código
+            $('#btnResend').click(function() {
+                $(this).prop('disabled', true);
+                $(this).text('Enviando...');
+
+                $.ajax({
+                    url: '?handler=ResendCode',
+                    type: 'POST',
+                    headers: {
+                        "RequestVerificationToken": $('input[name="__RequestVerificationToken"]').val()
+                    },
+                    success: function(result) {
+                        if (result.success) {
+                            alert(result.message);
+                        } else {
+                            alert(result.message || 'Error al reenviar el código');
+                        }
+                    },
+                    error: function() {
+                        alert('Error al procesar la solicitud');
+                    },
+                    complete: function() {
+                        $('#btnResend').prop('disabled', false);
+                        $('#btnResend').text('Reenviar código');
+                    }
+                });
+            });
+
+            // Enfocar el campo para pegar el código completo al cargar la página
+            $('#FullVerificationCode').focus();
+        });
+    </script>
+}
+

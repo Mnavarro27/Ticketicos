@@ -1,0 +1,9 @@
+C:\Users\XCPC\Desktop\Ticketicos\Ticketicoss\obj\Debug\net8.0\Ticketicoss.csproj.AssemblyReference.cache
+C:\Users\XCPC\Desktop\Ticketicos\Ticketicoss\obj\Debug\net8.0\Ticketicoss.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\XCPC\Desktop\Ticketicos\Ticketicoss\obj\Debug\net8.0\Ticketicoss.AssemblyInfoInputs.cache
+C:\Users\XCPC\Desktop\Ticketicos\Ticketicoss\obj\Debug\net8.0\Ticketicoss.AssemblyInfo.cs
+C:\Users\XCPC\Desktop\Ticketicos\Ticketicoss\obj\Debug\net8.0\Ticketicoss.csproj.CoreCompileInputs.cache
+C:\Users\XCPC\Desktop\Ticketicos\Ticketicoss\obj\Debug\net8.0\Ticketicoss.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\XCPC\Desktop\Ticketicos\Ticketicoss\obj\Debug\net8.0\Ticketicoss.RazorAssemblyInfo.cache
+C:\Users\XCPC\Desktop\Ticketicos\Ticketicoss\obj\Debug\net8.0\Ticketicoss.RazorAssemblyInfo.cs
+C:\Users\XCPC\Desktop\Ticketicos\Ticketicoss\obj\Debug\net8.0\Ticketicoss.sourcelink.json

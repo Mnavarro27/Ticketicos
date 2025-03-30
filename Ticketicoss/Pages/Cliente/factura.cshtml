@@ -1,0 +1,100 @@
+﻿@page
+@model WebApplication1.Pages.Cliente.FacturaModel
+@{
+    ViewData["Title"] = "Tickicos - Confirmación de Pago";
+}
+
+<style>
+    .bg-neon {
+        background-color: #c1ff00;
+    }
+
+    .bg-panel {
+        background-color: #505050;
+    }
+
+    .text-neon {
+        color: #c1ff00;
+    }
+
+    .border-neon {
+        border-color: #c1ff00 !important;
+    }
+</style>
+
+<div class="container-fluid bg-black min-vh-100 py-4">
+    <!-- Logo -->
+    <div class="d-flex justify-content-center mb-3">
+        <div class="bg-neon d-flex align-items-center justify-content-center" style="width: 70px; height: 70px; border-radius: 10px;">
+            <span class="fw-bold text-black">TICKICOS</span>
+        </div>
+    </div>
+
+    <!-- Panel principal -->
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5 col-xl-4">
+            <div class="bg-panel rounded-4 shadow-lg overflow-hidden mb-4">
+                <!-- Título -->
+                <div class="bg-neon p-2 text-center">
+                    <h4 class="fw-bold text-black mb-0">¡Pago Realizado con Éxito!</h4>
+                </div>
+
+                <div class="p-4 text-center">
+                    <!-- Ícono de verificación -->
+                    <div class="bg-success rounded-circle d-flex align-items-center justify-content-center mx-auto mb-3" style="width: 60px; height: 60px;">
+                        <i class="bi bi-check-lg text-white fs-1"></i>
+                    </div>
+
+                    <!-- Mensaje de confirmación -->
+                    <p class="text-white fs-5 mb-4">Tu compra ha sido confirmada</p>
+
+                    <!-- Línea divisoria -->
+                    <hr class="border-neon opacity-50 mx-4 mb-3" />
+
+                    <!-- Detalles de la factura -->
+                    <div class="text-start px-3">
+                        <div class="row mb-3">
+                            <div class="col-6 text-light">Número de factura:</div>
+                            <div class="col-6 text-white text-end">@Model.NumeroFactura</div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-6 text-light">Evento:</div>
+                            <div class="col-6 text-white text-end">@Model.Evento</div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-6 text-light">Fecha y hora:</div>
+                            <div class="col-6 text-white text-end">@Model.FechaHora</div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-6 text-light">Lugar:</div>
+                            <div class="col-6 text-white text-end">@Model.Lugar</div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-6 text-light">Cantidad de boletos:</div>
+                            <div class="col-6 text-white text-end">@Model.CantidadBoletos</div>
+                        </div>
+                    </div>
+
+                    <!-- Línea divisoria -->
+                    <hr class="border-neon opacity-50 mx-4 my-3" />
+
+                    <!-- Total -->
+                    <div class="d-flex justify-content-between px-3 mb-4">
+                        <span class="text-light fs-5">Total pagado:</span>
+                        <span class="text-neon fw-bold fs-5">@Model.Total</span>
+                    </div>
+
+                    <!-- Botón Volver al inicio -->
+                    <a asp-page="/Index" class="btn btn-success w-100 py-2 fw-bold">
+                        Volver al inicio
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
